@@ -40,9 +40,9 @@ public class GithubConnector extends InfoConnector {
 
     private final HttpClient client;
 
-    public GithubConnector(ConnectorProperties properties) {
+    public GithubConnector(ConnectorProperties properties, Integer timeout) {
         this.properties = properties;
-        this.client = buildHttpClient(properties);
+        this.client = buildHttpClient(properties, timeout);
     }
 
     public GithubConnector(ConnectorProperties properties, HttpClient client) {

@@ -118,7 +118,7 @@ public class ConnectorFetchService {
 
     private void fetchPages(Connector connector) {
         var connectorProperties = connectorService.getConnectorProperties(connector.getId());
-        InfoConnector infoConnector = InfoConnectorFactory.createInfoConnector(connector.getType(), connectorProperties);
+        InfoConnector infoConnector = InfoConnectorFactory.createInfoConnector(connector.getType(), connectorProperties, huntlyProperties.getFeedFetchTimeoutSeconds());
         if (infoConnector == null) {
             return;
         }

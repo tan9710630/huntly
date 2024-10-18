@@ -34,10 +34,10 @@ public class RSSConnector extends InfoConnector {
 
     private final HttpClient client;
 
-    public RSSConnector(ConnectorProperties connectorProperties) {
+    public RSSConnector(ConnectorProperties connectorProperties, Integer timeout) {
         this.connectorProperties = connectorProperties;
-        this.okClient = HttpUtils.buildFeedOkHttpClient(connectorProperties.getProxySetting());
-        this.client = buildHttpClient(connectorProperties);
+        this.okClient = HttpUtils.buildFeedOkHttpClient(connectorProperties.getProxySetting(), timeout);
+        this.client = buildHttpClient(connectorProperties, timeout);
     }
 
     @Override

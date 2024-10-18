@@ -50,10 +50,6 @@ public class HttpUtils {
         return builder.build();
     }
 
-    public static OkHttpClient buildFeedOkHttpClient(ProxySetting proxySetting) {
-        return buildFeedOkHttpClient(proxySetting, 30);
-    }
-
     public static HttpClient buildHttpClient(ProxySetting proxySetting, Integer timeoutSeconds) {
         // Configure SSLContext with a TrustManager that accepts any certificate
         SSLContext sslContext = null;
@@ -91,15 +87,5 @@ public class HttpUtils {
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }
-    }
-
-    /**
-     * default timeout set to 30 seconds
-     *
-     * @param proxySetting
-     * @return
-     */
-    public static HttpClient buildHttpClient(ProxySetting proxySetting) {
-        return buildHttpClient(proxySetting, 30);
     }
 }

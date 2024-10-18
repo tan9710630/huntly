@@ -15,8 +15,8 @@ import java.util.List;
  */
 public abstract class InfoConnector {
 
-    protected HttpClient buildHttpClient(ConnectorProperties properties) {
-        return HttpUtils.buildHttpClient(properties.getProxySetting());
+    protected HttpClient buildHttpClient(ConnectorProperties properties, Integer timeout) {
+        return HttpUtils.buildHttpClient(properties.getProxySetting(), timeout);
     }
 
     public abstract List<CapturePage> fetchNewestPages();

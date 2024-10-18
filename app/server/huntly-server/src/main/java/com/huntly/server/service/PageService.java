@@ -5,6 +5,7 @@ import com.huntly.interfaces.external.dto.ConnectorItem;
 import com.huntly.interfaces.external.dto.PageOperateResult;
 import com.huntly.interfaces.external.model.LibrarySaveStatus;
 import com.huntly.interfaces.external.query.PageQuery;
+import com.huntly.server.config.HuntlyProperties;
 import com.huntly.server.domain.entity.Page;
 import com.huntly.server.domain.enums.ArticleContentCategory;
 import com.huntly.server.domain.mapper.ConnectorItemMapper;
@@ -33,6 +34,8 @@ import java.util.Objects;
 @Service
 public class PageService extends BasePageService {
 
+    private final HuntlyProperties huntlyProperties;
+
     private final ConnectorRepository connectorRepository;
 
     private final SourceRepository sourceRepository;
@@ -43,8 +46,9 @@ public class PageService extends BasePageService {
 
     private final EventPublisher eventPublisher;
 
-    public PageService(PageRepository pageRepository, LuceneService luceneService, ConnectorRepository connectorRepository, SourceRepository sourceRepository, GlobalSettingService globalSettingService, PageArticleContentService pageArticleContentService, EventPublisher eventPublisher) {
+    public PageService(HuntlyProperties huntlyProperties, PageRepository pageRepository, LuceneService luceneService, ConnectorRepository connectorRepository, SourceRepository sourceRepository, GlobalSettingService globalSettingService, PageArticleContentService pageArticleContentService, EventPublisher eventPublisher) {
         super(pageRepository, luceneService);
+        this.huntlyProperties = huntlyProperties;
         this.connectorRepository = connectorRepository;
         this.sourceRepository = sourceRepository;
         this.globalSettingService = globalSettingService;
@@ -280,7 +284,7 @@ public class PageService extends BasePageService {
     public Page fetchFullContent(Long id) {
         var page = requireOne(id);
         String rawContent = page.getContent();
-        var httpClient = HttpUtils.buildHttpClient(globalSettingService.getProxySetting());
+        var httpClient = HttpUtils.buildHttpClient(globalSettingService.getProxySetting(), huntlyProperties.getFeedFetchTimeoutSeconds());
         String content = SiteUtils.parseArticleContent(page.getUrl(), httpClient);
         if (StringUtils.isNotBlank(content)) {
             HtmlText htmlText = HtmlUtils.clean(content, page.getUrl());

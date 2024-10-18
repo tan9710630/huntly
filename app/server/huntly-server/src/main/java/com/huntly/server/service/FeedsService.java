@@ -75,8 +75,8 @@ public class FeedsService {
         PreviewFeedsInfo feedsInfo = new PreviewFeedsInfo();
         feedsInfo.setFeedUrl(subscribeUrl);
         var proxySetting = globalSettingService.getProxySetting();
-        var httpClient = HttpUtils.buildHttpClient(proxySetting);
-        var feedClient = HttpUtils.buildFeedOkHttpClient(proxySetting);
+        var httpClient = HttpUtils.buildHttpClient(proxySetting, huntlyProperties.getFeedFetchTimeoutSeconds());
+        var feedClient = HttpUtils.buildFeedOkHttpClient(proxySetting, huntlyProperties.getFeedFetchTimeoutSeconds());
         SyndFeed syndFeed = FeedUtils.parseFeedUrl(subscribeUrl, feedClient);
         if (syndFeed != null) {
             feedsInfo.setSiteLink(syndFeed.getLink());

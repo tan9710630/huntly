@@ -12,16 +12,16 @@ import org.apache.commons.lang3.StringUtils;
  */
 @UtilityClass
 public class InfoConnectorFactory {
-    public static InfoConnector createInfoConnector(Integer connectorType, ConnectorProperties connectorProperties) {
+    public static InfoConnector createInfoConnector(Integer connectorType, ConnectorProperties connectorProperties, Integer timeout) {
         ConnectorType type = BaseEnum.valueOf(ConnectorType.class, connectorType);
         if (type == null) {
             return null;
         }
         if (ConnectorType.RSS.equals(type)) {
-            return new RSSConnector(connectorProperties);
+            return new RSSConnector(connectorProperties, timeout);
         }
         if (ConnectorType.GITHUB.equals(type) && StringUtils.isNotBlank(connectorProperties.getApiToken())) {
-            return new GithubConnector(connectorProperties);
+            return new GithubConnector(connectorProperties, timeout);
         }
         throw new NotImplementedException("connector type not implemented");
     }
