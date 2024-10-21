@@ -45,7 +45,10 @@ public class HttpUtils {
             );
         }
         if (timeoutSeconds != null) {
-            builder = builder.callTimeout(Duration.ofSeconds(timeoutSeconds));
+            builder = builder.callTimeout(Duration.ofSeconds(timeoutSeconds))
+                    .writeTimeout(Duration.ofSeconds(timeoutSeconds))
+                    .connectTimeout(Duration.ofSeconds(timeoutSeconds))
+                    .readTimeout(Duration.ofSeconds(timeoutSeconds));
         }
         return builder.build();
     }
